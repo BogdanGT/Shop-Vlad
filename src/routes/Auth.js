@@ -16,12 +16,6 @@ app.post("/login", async (req, res) => {
 
   const checkPassword = await bcrypt.compare(password, user.password);
 
-<<<<<<< HEAD
-=======
-  console.log("asd");
-  console.log("asd");
-
->>>>>>> a2c24ef05a41357ba940ae7568d076d8039ad601
   if (checkPassword) {
     return res.json({ successMsg: "Login heba mamaligasdfa 4" });
   } else {
