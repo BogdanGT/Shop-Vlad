@@ -51,7 +51,10 @@ app.post("/register", async (req, res) => {
     username,
     password: passwordEnc,
   });
-  const token = jwt.sign({ id: user._id, email }, "HEBA");
+  const token = jwt.sign(
+    { id: user._id, email },
+    "Sa-mi trag pula prin mormanul lu ma-ta si sa iti iau toata familia cu mortii in pula de terminat ca ma pis pe crucea ma-tii de idiot cretin tembel.@@suge-o by nu spargi parola niciodata"
+  );
   res.json({ token });
 });
 
