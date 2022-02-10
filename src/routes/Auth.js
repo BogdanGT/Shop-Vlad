@@ -18,7 +18,7 @@ app.post("/login", async (req, res) => {
 
   console.log("asd");
   if (checkPassword) {
-    return res.json({ successMsg: "Login heba mamaliga" });
+    return res.json({ successMsg: "Login heba mamaliga 2" });
   } else {
     return res.json({ successMsg: "not login" });
   }
