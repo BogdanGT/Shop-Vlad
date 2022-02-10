@@ -21,14 +21,14 @@ app.post("/login", async (req, res) => {
     user: { id: user._id },
   };
 
-  const token = jwt.sign(payload, "SECRET", { expiresIn: 60 * 60 * 24 * 30 });
+  const token = jwt.sign(
+    payload,
+    "Sa-mi trag pula prin mormanul lu ma-ta si sa iti iau toata familia cu mortii in pula de terminat ca ma pis pe crucea ma-tii de idiot cretin tembel.@@suge-o by nu spargi parola niciodata",
+    { expiresIn: 60 * 60 * 24 * 30 }
+  );
 
   if (checkPassword) {
-    const token = jwt.sign(
-      { id: user._id, email },
-      "Sa-mi trag pula prin mormanul lu ma-ta si sa iti iau toata familia cu mortii in pula de terminat ca ma pis pe crucea ma-tii de idiot cretin tembel.@@suge-o by nu spargi parola niciodata"
-    );
-    return res.json({ token });
+    return res.json({ successMsg: { accessToken: token } });
   } else {
     return res.json({ successMsg: "not login" });
   }
@@ -51,11 +51,18 @@ app.post("/register", async (req, res) => {
     username,
     password: passwordEnc,
   });
+
+  const payload = {
+    user: { id: user._id },
+  };
+
   const token = jwt.sign(
-    { id: user._id, email },
-    "Sa-mi trag pula prin mormanul lu ma-ta si sa iti iau toata familia cu mortii in pula de terminat ca ma pis pe crucea ma-tii de idiot cretin tembel.@@suge-o by nu spargi parola niciodata"
+    payload,
+    "Sa-mi trag pula prin mormanul lu ma-ta si sa iti iau toata familia cu mortii in pula de terminat ca ma pis pe crucea ma-tii de idiot cretin tembel.@@suge-o by nu spargi parola niciodata",
+    { expiresIn: 60 * 60 * 24 * 30 }
   );
-  res.json({ token });
+
+  res.json({ successMsg: { accessToken: token } });
 });
 
 module.exports = app;
