@@ -2,12 +2,13 @@ const express = require("express");
 const app = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+// const jwt = require("jsonwebtoken");
 const User = require("../Models/User");
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   console.log(email);
-
+  // res.send("hahdsfasf");
   const user = await User.findOne({ email });
 
   if (!user) {
@@ -20,7 +21,8 @@ app.post("/login", async (req, res) => {
   console.log("asd");
 
   if (checkPassword) {
-    return res.json({ successMsg: "Login heba mamaligasdfa 4" });
+    const token = jwt.sign({ id: user._id, email }, "HEBA");
+    return res.json({ token });
   } else {
     return res.json({ successMsg: "not login" });
   }
@@ -29,6 +31,12 @@ app.post("/login", async (req, res) => {
 app.post("/register", async (req, res) => {
   const { email, username, password } = req.body;
 
+  const existingUser = await User.findOne({ email });
+
+  if (existingUser) {
+    return res.json({ err: "User already exists" });
+  }
+
   const passwordEnc = await bcrypt.hash(password, 10);
 
   const user = await User.create({
@@ -36,7 +44,8 @@ app.post("/register", async (req, res) => {
     username,
     password: passwordEnc,
   });
-  res.json({ user });
+  const token = jwt.sign({ id: user._id, email }, "HEBA");
+  res.json({ token });
 });
 
 module.exports = app;
