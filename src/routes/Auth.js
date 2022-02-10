@@ -18,7 +18,7 @@ app.post("/login", async (req, res) => {
 
   console.log("asd");
   if (checkPassword) {
-    return res.json({ successMsg: "Login" });
+    return res.json({ successMsg: "Login heba" });
   } else {
     return res.json({ successMsg: "not login" });
   }
