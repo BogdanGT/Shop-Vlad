@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const Auth = require("./src/routes/Auth");
 
@@ -9,6 +10,7 @@ mongoose
   .then(() => console.log("merge"))
   .catch(() => console.log("nu merge"));
 
+app.use(cors());
 app.use(express.json());
 app.use("/auth", Auth);
 

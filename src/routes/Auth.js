@@ -6,7 +6,7 @@ const User = require("../Models/User");
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  console.log(email);
+  console.log(email, password);
 
   const user = await User.findOne({ email });
 
@@ -16,7 +16,6 @@ app.post("/login", async (req, res) => {
 
   const checkPassword = await bcrypt.compare(password, user.password);
 
-  console.log("asd");
   if (checkPassword) {
     return res.json({ successMsg: "Login" });
   } else {
@@ -26,6 +25,7 @@ app.post("/login", async (req, res) => {
 
 app.post("/register", async (req, res) => {
   const { email, username, password } = req.body;
+  console.log(email, password, username);
 
   const passwordEnc = await bcrypt.hash(password, 10);
 
