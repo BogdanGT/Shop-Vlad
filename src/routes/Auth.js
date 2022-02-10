@@ -3,7 +3,6 @@ const app = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../Models/User");
-const cookieParser = require("cookie-parser");
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -17,16 +16,14 @@ app.post("/login", async (req, res) => {
 
   const checkPassword = await bcrypt.compare(password, user.password);
 
-  if (checkPassword) {
-    let options = {
-      maxAge: 1000 * 60 * 15,
-      httpOnly: true,
-      signed: true,
-    };
+  const payload = {
+    user: { id: user._id },
+  };
 
-    // Set cookie
-    res.cookie("token", "token", options); // options is optional
-    return res.json({ successMsg: "Login sdf" });
+  const token = jwt.sign(payload, "SECRET", { expiresIn: 60 * 60 * 24 * 30 });
+
+  if (checkPassword) {
+    return res.json({ successMsg: { accessToken: token } });
   } else {
     return res.json({ successMsg: "not login" });
   }
