@@ -24,14 +24,7 @@ app.post("/login", async (req, res) => {
   const token = jwt.sign(payload, "SECRET", { expiresIn: 60 * 60 * 24 * 30 });
 
   if (checkPassword) {
-<<<<<<< HEAD
     const token = jwt.sign({ id: user._id, email }, "HEBA");
-=======
-    const token = jwt.sign(
-      { id: user._id, email },
-      "Sa-mi trag pula prin mormanul lu ma-ta si sa iti iau toata familia cu mortii in pula de terminat ca ma pis pe crucea ma-tii de idiot cretin tembel.@@suge-o by nu spargi parola niciodata"
-    );
->>>>>>> 222b7badacb745509b5802b2e21555af3d568425
     return res.json({ token });
   } else {
     return res.json({ successMsg: "not login" });
