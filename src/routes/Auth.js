@@ -16,6 +16,7 @@ app.post("/login", async (req, res) => {
 
   const checkPassword = await bcrypt.compare(password, user.password);
 
+  console.log("asd");
   if (checkPassword) {
     return res.json({ successMsg: "Login" });
   } else {
