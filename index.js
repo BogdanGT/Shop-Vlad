@@ -10,6 +10,8 @@ mongoose
   .then(() => console.log("merge"))
   .catch(() => console.log("nu merge"));
 
+app.use(cookieParser());
+
 app.use(cors());
 app.use(express.json());
 app.use("/auth", Auth);
