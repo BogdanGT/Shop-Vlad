@@ -52,11 +52,7 @@ app.post("/register", async (req, res) => {
     },
   });
   // discout,stoc,nume,poze,descriereScurta,lunga,brand,categorie mazga
-<<<<<<< HEAD
-  // asdfasdfasdfasdf
-=======
-  // asdfasdfasdfasdf gabi suge cariciu asd
->>>>>>> 06c1c7fb6f506777addc6e22aab78d2b231c913b
+  // asdfasdfasdfasdf gabi suge cariciu asd ia la muie sloboz
   let mail_options = {
     from: process.env.NODEMAILER_EMAIL,
     to: "bogdantunsugt@gmail.com",
