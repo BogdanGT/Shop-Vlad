@@ -46,43 +46,30 @@ app.post("/register", async (req, res) => {
   //   return res.json({ err: "User already exists" });
   // }
 
-  let transporter = nodemailer.createTransport({
-    // service: "gmail",
-    host: "gmail",
-    // port: 465,
-    // secure: true, // true for 465, false for other ports
+  const transporter = nodemailer.createTransport({
+    service: process.env.NODEMAILER_SERVICE,
     auth: {
-      user: "gabriel.ionescu@ltme.ro", // generated ethereal user
-      pass: "screwyou", // generated ethereal password
+      user: process.env.NODEMAILER_EMAIL,
+      pass: process.env.NODEMAILER_PASSWORD,
     },
   });
 
-  // send mail with defined transport object
-  let info = transporter.sendMail(
-    {
-      from: " gabriel.ionescu@ltme.ro", // sender address
-      to: "bogdantunsugt@gmail.com", // list of receivers
-      subject: "Testing existance", // Subject line
-      text: "CODE NUMBER", // plain text body
-      html: "<b>Hello mothersfucker?</b>", // html body
-    },
-    (error, info) => {
-      if (error) {
-        console.log(error);
-      } else console.log("Message sent: %s", info.messageId);
+  let mail_options = {
+    from: process.env.NODEMAILER_EMAIL,
+    to: "bogdantunsugt@gmail.com",
+    subject: "asd",
+    text: `Registery Code - asd`,
+  };
 
-      // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    }
-  );
+  await transporter.sendMail(mail_options);
 
-  // SSSSSSSSSSSSSSS
   const passwordEnc = await bcrypt.hash(password, 10);
 
-  const user = await User.create({
-    email,
-    username,
-    password: passwordEnc,
-  });
+  // const user = await User.create({
+  //   email,
+  //   username,
+  //   password: passwordEnc,
+  // });
 
   const payload = {
     user: { id: user._id },
@@ -95,7 +82,6 @@ app.post("/register", async (req, res) => {
   );
 
   res.json({ successMsg: { accessToken: token } });
-  // res.json({ msg: "fuck yeah" });
 });
 
 module.exports = app;
