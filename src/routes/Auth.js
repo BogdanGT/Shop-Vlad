@@ -52,7 +52,7 @@ app.post("/register", async (req, res) => {
     },
   });
   // discout,stoc,nume,poze,descriereScurta,lunga,brand,categorie mazga
-  // asdfasdfasdfasdf gabi suge cariciu asd ia la muie sloboz
+  // asdfasdfasdfasdf eu zic ca tu o sugi
   let mail_options = {
     from: process.env.NODEMAILER_EMAIL,
     to: "bogdantunsugt@gmail.com",
