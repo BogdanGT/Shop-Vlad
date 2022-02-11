@@ -5,14 +5,12 @@ const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
 const authMiddleware = require("../Middleware/Auth");
 
-// const jwt = require("jsonwebtoken");
 const User = require("../Models/User");
 const verifytoken = require("../Middleware/Auth");
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   console.log(email);
-  // res.send("hahdsfasf");
   const user = await User.findOne({ email });
 
   if (!user) {
