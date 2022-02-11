@@ -3,6 +3,7 @@ const app = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const authMiddleware = require("../Middleware/Auth");
 
 // const jwt = require("jsonwebtoken");
 const User = require("../Models/User");
@@ -23,11 +24,9 @@ app.post("/login", async (req, res) => {
     user: { id: user._id },
   };
 
-  const token = jwt.sign(
-    payload,
-    "Sa-mi trag pula prin mormanul lu ma-ta si sa iti iau toata familia cu mortii in pula de terminat ca ma pis pe crucea ma-tii de idiot cretin tembel.@@suge-o by nu spargi parola niciodata",
-    { expiresIn: 60 * 60 * 24 * 30 }
-  );
+  const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: 60 * 60 * 24 * 30,
+  });
 
   if (checkPassword) {
     return res.json({ successMsg: { accessToken: token } });
@@ -42,9 +41,9 @@ app.post("/register", async (req, res) => {
 
   const existingUser = await User.findOne({ email });
 
-  // if (existingUser) {
-  //   return res.json({ err: "User already exists" });
-  // }
+  if (existingUser) {
+    return res.json({ err: "User already exists" });
+  }
 
   const transporter = nodemailer.createTransport({
     service: process.env.NODEMAILER_SERVICE,
@@ -65,23 +64,26 @@ app.post("/register", async (req, res) => {
 
   const passwordEnc = await bcrypt.hash(password, 10);
 
-  // const user = await User.create({
-  //   email,
-  //   username,
-  //   password: passwordEnc,
-  // });
+  const user = await User.create({
+    email,
+    username,
+    password: passwordEnc,
+  });
 
   const payload = {
     user: { id: user._id },
   };
 
-  const token = jwt.sign(
-    payload,
-    "Sa-mi trag pula prin mormanul lu ma-ta si sa iti iau toata familia cu mortii in pula de terminat ca ma pis pe crucea ma-tii de idiot cretin tembel.@@suge-o by nu spargi parola niciodata",
-    { expiresIn: 60 * 60 * 24 * 30 }
-  );
+  const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: 60 * 60 * 24 * 30,
+  });
 
   res.json({ successMsg: { accessToken: token } });
+});
+
+app.get("/asd", authMiddleware, (req, res) => {
+  // res.send(req.user.id);
+  console.log(req.user.id);
 });
 
 module.exports = app;
