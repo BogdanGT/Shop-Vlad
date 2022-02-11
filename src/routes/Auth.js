@@ -1,12 +1,15 @@
+// DEPENDENCIES
 const express = require("express");
 const app = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+// MIDDLEWARE
 const authMiddleware = require("../Middleware/Auth");
-
-const User = require("../Models/User");
 const verifytoken = require("../Middleware/Auth");
+const upload = require("../Middleware/Multer");
+// MODELS
+const User = require("../Models/User");
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -51,8 +54,8 @@ app.post("/register", async (req, res) => {
       pass: process.env.NODEMAILER_PASSWORD,
     },
   });
-  // sa ma iei de pula mere asd gggggggg
-  // asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf
+  // sa ma iei de pula mere asd gggggggg asd
+  // nume , pret , brand , descriere 2 , poze
   let mail_options = {
     from: process.env.NODEMAILER_EMAIL,
     to: "bogdantunsugt@gmail.com",
@@ -81,9 +84,8 @@ app.post("/register", async (req, res) => {
   res.json({ successMsg: { accessToken: token } });
 });
 
-app.get("/asd", authMiddleware, (req, res) => {
-  // res.send(req.user.id);
-  console.log(req.user.id);
+app.get("/change-password", authMiddleware, (req, res) => {
+  res.send(req.user.id);
 });
 
 module.exports = app;
