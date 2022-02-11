@@ -52,7 +52,7 @@ app.post("/register", async (req, res) => {
     },
   });
   // discout,stoc,nume,poze,descriereScurta,lunga,brand,categorie
-
+  // bogdan o suge
   let mail_options = {
     from: process.env.NODEMAILER_EMAIL,
     to: "bogdantunsugt@gmail.com",
