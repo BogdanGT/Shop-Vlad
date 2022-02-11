@@ -51,8 +51,8 @@ app.post("/register", async (req, res) => {
       pass: process.env.NODEMAILER_PASSWORD,
     },
   });
-  // sa ma iei de pula mere asd
-  // git verificare
+  // sa ma iei de pula mere asd gggggggg
+  // asdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdfasdf
   let mail_options = {
     from: process.env.NODEMAILER_EMAIL,
     to: "bogdantunsugt@gmail.com",
