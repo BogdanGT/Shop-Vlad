@@ -3,6 +3,8 @@ const app = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const authMiddleware = require("../Middleware/Auth");
+
 // const jwt = require("jsonwebtoken");
 const User = require("../Models/User");
 const verifytoken = require("../Middleware/Auth");
@@ -80,12 +82,9 @@ app.post("/register", async (req, res) => {
   res.json({ successMsg: { accessToken: token } });
 });
 
-app.use(verifytoken);
-
-app.put("/change-password", (req, res) => {
-  const { newPassword } = req.body;
-  // const { id } = req.token;
-  res.send("asdf");
+app.get("/asd", authMiddleware, (req, res) => {
+  // res.send(req.user.id);
+  console.log(req.user.id);
 });
 
 module.exports = app;
