@@ -23,7 +23,7 @@ app.get("/", (req, res) => {
   res.send("asdfasdf");
 });
 
-app.post("/", upload.single("image"), (req, res) => {
+app.post("/", upload.array("image"), (req, res) => {
   const { name, price, brand, descriptionS, descriptionL } = req.body;
   Produs.create({
     name,
