@@ -51,7 +51,7 @@ app.post("/register", async (req, res) => {
       pass: process.env.NODEMAILER_PASSWORD,
     },
   });
-  // discout,stoc,nume,poze,descriereScurta,lunga,brand,categorie
+  // discout,stoc,nume,poze,descriereScurta,lunga,brand,categorie mazga
 
   let mail_options = {
     from: process.env.NODEMAILER_EMAIL,
