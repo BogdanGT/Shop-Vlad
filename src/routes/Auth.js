@@ -2,6 +2,8 @@ const express = require("express");
 const app = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+
 // const jwt = require("jsonwebtoken");
 const User = require("../Models/User");
 
@@ -40,10 +42,40 @@ app.post("/register", async (req, res) => {
 
   const existingUser = await User.findOne({ email });
 
-  if (existingUser) {
-    return res.json({ err: "User already exists" });
-  }
+  // if (existingUser) {
+  //   return res.json({ err: "User already exists" });
+  // }
 
+  let transporter = nodemailer.createTransport({
+    // service: "gmail",
+    host: "gmail",
+    // port: 465,
+    // secure: true, // true for 465, false for other ports
+    auth: {
+      user: "gabriel.ionescu@ltme.ro", // generated ethereal user
+      pass: "screwyou", // generated ethereal password
+    },
+  });
+
+  // send mail with defined transport object
+  let info = transporter.sendMail(
+    {
+      from: " gabriel.ionescu@ltme.ro", // sender address
+      to: "bogdantunsugt@gmail.com", // list of receivers
+      subject: "Testing existance", // Subject line
+      text: "CODE NUMBER", // plain text body
+      html: "<b>Hello mothersfucker?</b>", // html body
+    },
+    (error, info) => {
+      if (error) {
+        console.log(error);
+      } else console.log("Message sent: %s", info.messageId);
+
+      // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    }
+  );
+
+  // SSSSSSSSSSSSSSS
   const passwordEnc = await bcrypt.hash(password, 10);
 
   const user = await User.create({
@@ -63,6 +95,7 @@ app.post("/register", async (req, res) => {
   );
 
   res.json({ successMsg: { accessToken: token } });
+  // res.json({ msg: "fuck yeah" });
 });
 
 module.exports = app;
