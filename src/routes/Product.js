@@ -7,13 +7,11 @@ const { v4: uuidv4 } = require("uuid");
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    console.log(file);
-    console.log("asdfasdf");
     cb(null, "./Images");
   },
   filename: (req, file, cb) => {
     const id = uuidv4();
-    cb(null, `aasdfasdfa.jpg`);
+    cb(null, `${id}.jpg`);
   },
 });
 
@@ -25,16 +23,20 @@ app.get("/", (req, res) => {
 
 app.post("/", upload.array("image"), (req, res) => {
   const { name, price, brand, descriptionS, descriptionL } = req.body;
+  const images = req.files.map((e) => {
+    return e.path;
+  });
+  console.log(images);
   Produs.create({
     name,
     price,
     brand,
     descriptionS,
     descriptionL,
-    image,
+    images: images,
   });
-  console.log(req.file);
-  res.send("upload succeded");
+
+  res.send("Upload succeded!");
 });
 
 module.exports = app;

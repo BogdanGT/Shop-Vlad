@@ -2,8 +2,6 @@ const { v4: uuidv4 } = require("uuid");
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    console.log(file);
-    console.log("asdfasdf");
     cb(null, "Images");
   },
   filename: (req, file, cb) => {

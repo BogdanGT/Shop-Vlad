@@ -84,8 +84,16 @@ app.post("/register", async (req, res) => {
   res.json({ successMsg: { accessToken: token } });
 });
 
-app.get("/change-password", authMiddleware, (req, res) => {
-  res.send(req.user.id);
+app.put("/change-password", authMiddleware, async (req, res) => {
+  // res.send(req.user.id);
+  const { password } = req.body;
+  const { id } = req.user;
+  let user = await User.findOne({ _id: id });
+  if (!user) return res.send({ err: "User not found" });
+  const newPassword = await bcrypt.hash(password, 10);
+  user.password = newPassword;
+  await user.save();
+  res.send(user);
 });
 
 module.exports = app;
