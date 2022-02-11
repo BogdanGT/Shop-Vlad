@@ -51,13 +51,8 @@ app.post("/register", async (req, res) => {
       pass: process.env.NODEMAILER_PASSWORD,
     },
   });
-<<<<<<< HEAD
-  // discout,stoc,nume,poze,descriereScurta,lunga,brand,categorie
-  // bogdan o suge
-=======
   // discout,stoc,nume,poze,descriereScurta,lunga,brand,categorie mazga
 
->>>>>>> 7f3817cd2df5b42a23791ea71389c971d21ab7e4
   let mail_options = {
     from: process.env.NODEMAILER_EMAIL,
     to: "bogdantunsugt@gmail.com",
