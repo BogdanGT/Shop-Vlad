@@ -1,16 +1,19 @@
+// DEPENDENCIES
 const express = require("express");
 const app = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-
-// const jwt = require("jsonwebtoken");
+// MIDDLEWARE
+const authMiddleware = require("../Middleware/Auth");
+const verifytoken = require("../Middleware/Auth");
+const upload = require("../Middleware/Multer");
+// MODELS
 const User = require("../Models/User");
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   console.log(email);
-  // res.send("hahdsfasf");
   const user = await User.findOne({ email });
 
   if (!user) {
@@ -23,11 +26,9 @@ app.post("/login", async (req, res) => {
     user: { id: user._id },
   };
 
-  const token = jwt.sign(
-    payload,
-    "Sa-mi trag pula prin mormanul lu ma-ta si sa iti iau toata familia cu mortii in pula de terminat ca ma pis pe crucea ma-tii de idiot cretin tembel.@@suge-o by nu spargi parola niciodata",
-    { expiresIn: 60 * 60 * 24 * 30 }
-  );
+  const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: 60 * 60 * 24 * 30,
+  });
 
   if (checkPassword) {
     return res.json({ successMsg: { accessToken: token } });
@@ -42,9 +43,9 @@ app.post("/register", async (req, res) => {
 
   const existingUser = await User.findOne({ email });
 
-  // if (existingUser) {
-  //   return res.json({ err: "User already exists" });
-  // }
+  if (existingUser) {
+    return res.json({ err: "User already exists" });
+  }
 
   const transporter = nodemailer.createTransport({
     service: process.env.NODEMAILER_SERVICE,
@@ -53,7 +54,8 @@ app.post("/register", async (req, res) => {
       pass: process.env.NODEMAILER_PASSWORD,
     },
   });
-
+  // sa ma iei de pula mere asd gggggggg asd
+  // nume , pret , brand , descriere 2 , poze
   let mail_options = {
     from: process.env.NODEMAILER_EMAIL,
     to: "bogdantunsugt@gmail.com",
@@ -75,13 +77,23 @@ app.post("/register", async (req, res) => {
     user: { id: user._id },
   };
 
-  const token = jwt.sign(
-    payload,
-    "Sa-mi trag pula prin mormanul lu ma-ta si sa iti iau toata familia cu mortii in pula de terminat ca ma pis pe crucea ma-tii de idiot cretin tembel.@@suge-o by nu spargi parola niciodata",
-    { expiresIn: 60 * 60 * 24 * 30 }
-  );
+  const token = jwt.sign(payload, process.env.JWT_SECRET, {
+    expiresIn: 60 * 60 * 24 * 30,
+  });
 
   res.json({ successMsg: { accessToken: token } });
+});
+
+app.put("/change-password", authMiddleware, async (req, res) => {
+  // res.send(req.user.id);
+  const { password } = req.body;
+  const { id } = req.user;
+  let user = await User.findOne({ _id: id });
+  if (!user) return res.send({ err: "User not found" });
+  const newPassword = await bcrypt.hash(password, 10);
+  user.password = newPassword;
+  await user.save();
+  res.send(user);
 });
 
 module.exports = app;
