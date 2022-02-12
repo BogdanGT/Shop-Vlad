@@ -37,7 +37,7 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const { email, username, password } = req.body;
+  const { email, username, password, registerCode } = req.body;
   console.log(email, password, username);
 
   const existingUser = await User.findOne({ email });
@@ -46,36 +46,23 @@ app.post("/register", async (req, res) => {
   //   return res.json({ err: "User already exists" });
   // }
 
-  // let transporter = nodemailer.createTransport({
-  //   // service: "gmail",
-  //   host: "gmail",
-  //   // port: 465,
-  //   // secure: true, // true for 465, false for other ports
-  //   auth: {
-  //     user: "gabriel.ionescu@ltme.ro", // generated ethereal user
-  //     pass: "screwyou", // generated ethereal password
-  //   },
-  // });
+  const transporter = nodemailer.createTransport({
+    service: process.env.NODEMAILER_SERVICE,
+    auth: {
+      user: process.env.NODEMAILER_EMAIL,
+      pass: process.env.NODEMAILER_PASSWORD,
+    },
+  });
 
-  // // send mail with defined transport object
-  // let info = transporter.sendMail(
-  //   {
-  //     from: " gabriel.ionescu@ltme.ro", // sender address
-  //     to: "bogdantunsugt@gmail.com", // list of receivers
-  //     subject: "Testing existance", // Subject line
-  //     text: "CODE NUMBER", // plain text body
-  //     html: "<b>Hello mothersfucker?</b>", // html body
-  //   },
-  //   (error, info) => {
-  //     if (error) {
-  //       console.log(error);
-  //     } else console.log("Message sent: %s", info.messageId);
+  let mail_options = {
+    from: process.env.NODEMAILER_EMAIL,
+    to: "bogdantunsugt@gmail.com",
+    subject: "Ai primit codul de inregistrare!",
+    text: `Codul de inregistrare este - ${registerCode}`,
+  };
 
-  //     // console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-  //   }
-  // );
+  await transporter.sendMail(mail_options);
 
-  // SSSSSSSSSSSSSSS
   const passwordEnc = await bcrypt.hash(password, 10);
 
   const user = await User.create({
@@ -95,7 +82,6 @@ app.post("/register", async (req, res) => {
   );
 
   res.json({ successMsg: { accessToken: token } });
-  // res.json({ msg: "fuck yeah" });
 });
 
 module.exports = app;
