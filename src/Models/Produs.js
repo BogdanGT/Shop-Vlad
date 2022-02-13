@@ -6,7 +6,9 @@ const produsSchema = new mongoose.Schema({
   price: Number,
   descriptionS: String,
   descriptionL: String,
+  stock: Number,
   images: Array,
+  informatii: Object,
 });
 
 const Produs = mongoose.model("Produs", produsSchema);
