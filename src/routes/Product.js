@@ -50,9 +50,9 @@ app.get("/getProduct/:product_id", async (req, res) => {
 
 app.get("/getProductsByCategory/:product_category", async (req, res) => {
   const product_category = req.params.product_category;
-  const product = await Produs.find({ cateogrie: product_category });
+  const product = await Produs.find({ categorie: product_category });
 
-  console.log(product);
+  console.log(product_category);
 
   res.json({ product });
 });
