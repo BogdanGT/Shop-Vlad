@@ -15,6 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/auth", Auth);
 app.use("/product", Product);
+app.use("/Images", express.static("./Images"));
 
 app.listen(5000, () => {
   console.log("app lisen");

@@ -17,11 +17,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-app.get("/", (req, res) => {
-  res.send("asdfasdf");
+app.get("/", async (req, res) => {
+  const products = await Produs.find();
+  console.log(products);
+  res.json({ products });
 });
 
-app.post("/", upload.array("image"), (req, res) => {
+app.post("/", [upload.array("image")], (req, res) => {
   const { name, price, brand, descriptionS, descriptionL } = req.body;
   const images = req.files.map((e) => {
     return e.path;
@@ -37,6 +39,13 @@ app.post("/", upload.array("image"), (req, res) => {
   });
 
   res.send("Upload succeded!");
+});
+
+app.get("/getProduct/:product_id", async (req, res) => {
+  const product_id = req.params.product_id;
+  const product = await Produs.findById(product_id);
+
+  res.json({ product });
 });
 
 module.exports = app;
