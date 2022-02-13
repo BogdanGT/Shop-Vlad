@@ -9,6 +9,7 @@ const produsSchema = new mongoose.Schema({
   stock: Number,
   images: Array,
   informatii: Object,
+  categorie: String,
 });
 
 const Produs = mongoose.model("Produs", produsSchema);

@@ -48,4 +48,13 @@ app.get("/getProduct/:product_id", async (req, res) => {
   res.json({ product });
 });
 
+app.get("/getProductsByCategory/:product_category", async (req, res) => {
+  const product_category = req.params.product_category;
+  const product = await Produs.find({ cateogrie: product_category });
+
+  console.log(product);
+
+  res.json({ product });
+});
+
 module.exports = app;
