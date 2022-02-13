@@ -48,4 +48,13 @@ app.get("/getProduct/:product_id", async (req, res) => {
   res.json({ product });
 });
 
+app.delete("/:id", (req, res) => {
+  const { id } = req.params.id;
+
+  const produs = await Produs.findOne({ id });
+  if (!produs) return res.json({ err: "Produs not found." });
+
+  console.log(produs);
+});
+
 module.exports = app;
