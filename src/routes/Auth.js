@@ -38,7 +38,7 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const { email, username, password, registerCode } = req.body;
+  const { email, username, password } = req.body;
   console.log(email, password, username);
 
   const existingUser = await User.findOne({ email });

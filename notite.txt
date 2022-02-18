@@ -1,0 +1,8 @@
+todo:: schema cu istorioc 
+comenzi{
+    email,
+    adresa,
+    array {
+        id:produs
+    }
+}
