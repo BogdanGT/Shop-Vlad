@@ -1,8 +1,5 @@
 const express = require("express");
-// const res = require("express/lib/response");
-// const upload = require("../Middleware/Multer");
 const Produs = require("../Models/Produs");
-const Comand = require("../Models/Comenzi");
 const app = express.Router();
 const { v4: uuidv4 } = require("uuid");
 const verifyAdmin = require("../Middleware/Admin");
@@ -19,13 +16,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+//------USER------
+
 app.get("/", async (req, res) => {
   const products = await Produs.find();
   console.log(products);
+  console.log("asdasd");
   res.json({ products });
 });
 
-app.get("/getProduct/:product_id", async (req, res) => {
+app.get("/:product_id", async (req, res) => {
   const product_id = req.params.product_id;
   const product = await Produs.findById(product_id);
 
@@ -34,7 +34,7 @@ app.get("/getProduct/:product_id", async (req, res) => {
   res.json({ product });
 });
 
-app.get("/getProductsByCategory/:product_category", async (req, res) => {
+app.get("/categorie/:product_category", async (req, res) => {
   const product_category = req.params.product_category;
 
   const product = await Produs.find({ cateogrie: product_category });
@@ -44,21 +44,7 @@ app.get("/getProductsByCategory/:product_category", async (req, res) => {
   res.json({ product });
 });
 
-app.post("/user", async (req, res) => {
-  const { email, adress, products } = req.body;
-  // return res.send("asdf");
-  // res.json({ asd: "fuckyeah" });
-  const produs = await Comand.create({
-    email,
-    adress,
-    products,
-  });
-  res.send(produs);
-});
-
-// ADMIN REQUESTS
-
-app.use(verifyAdmin);
+//------ADMIN------
 
 app.post("/", [upload.array("image")], (req, res) => {
   const { name, price, brand, descriptionS, descriptionL } = req.body;
@@ -90,15 +76,6 @@ app.delete("/:id", async (req, res) => {
   }
 
   res.json({ err: "Delete was succesfull." });
-});
-
-app.get("/getProductsByCategory/:product_category", async (req, res) => {
-  const product_category = req.params.product_category;
-  const product = await Produs.find({ categorie: product_category });
-
-  console.log(product_category);
-
-  if (!produs) return res.json({ err: "Produs not found" });
 });
 
 module.exports = app;

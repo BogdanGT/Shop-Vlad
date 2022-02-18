@@ -47,23 +47,23 @@ app.post("/register", async (req, res) => {
     return res.json({ err: "User already exists" });
   }
 
-  const transporter = nodemailer.createTransport({
-    service: process.env.NODEMAILER_SERVICE,
-    auth: {
-      user: process.env.NODEMAILER_EMAIL,
-      pass: process.env.NODEMAILER_PASSWORD,
-    },
-  });
+  // const transporter = nodemailer.createTransport({
+  //   service: process.env.NODEMAILER_SERVICE,
+  //   auth: {
+  //     user: process.env.NODEMAILER_EMAIL,
+  //     pass: process.env.NODEMAILER_PASSWORD,
+  //   },
+  // });
   // sa ma iei de pula mere asd gggggggg asd
   // nume , pret , brand , descriere 2 , poze
-  let mail_options = {
-    from: process.env.NODEMAILER_EMAIL,
-    to: "bogdantunsugt@gmail.com",
-    subject: "Ai primit codul de inregistrare!",
-    text: `Codul de inregistrare este - ${registerCode}`,
-  };
+  // let mail_options = {
+  //   from: process.env.NODEMAILER_EMAIL,
+  //   to: "bogdantunsugt@gmail.com",
+  //   subject: "Ai primit codul de inregistrare!",
+  //   text: `Codul de inregistrare este - ${registerCode}`,
+  // };
 
-  await transporter.sendMail(mail_options);
+  // await transporter.sendMail(mail_options);
 
   const passwordEnc = await bcrypt.hash(password, 10);
 
@@ -94,6 +94,13 @@ app.put("/change-password", authMiddleware, async (req, res) => {
   user.password = newPassword;
   await user.save();
   res.send(user);
+});
+
+app.get("/user", authMiddleware, async (req, res) => {
+  const user = await User.findById(req.user.id);
+  console.log(req.user);
+
+  res.json({ user });
 });
 
 module.exports = app;
