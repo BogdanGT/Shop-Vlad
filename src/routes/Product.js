@@ -92,10 +92,11 @@ app.delete("/:id", async (req, res) => {
   res.json({ err: "Delete was succesfull." });
 });
 
-app.put("/:id", async (req, res) => {
-  const { id } = req.params;
+app.get("/getProductsByCategory/:product_category", async (req, res) => {
+  const product_category = req.params.product_category;
+  const product = await Produs.find({ categorie: product_category });
 
-  const produs = await Produs.findOne({ _id: id });
+  console.log(product_category);
 
   if (!produs) return res.json({ err: "Produs not found" });
 });
