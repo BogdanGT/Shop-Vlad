@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const comandSchema = new mongoose.Schema(
   {
+    creator: String,
     email: String,
     nume: String,
     prenume: String,
@@ -13,6 +14,7 @@ const comandSchema = new mongoose.Schema(
     judet: String,
     codPostal: String,
     telefon: String,
+    status: String,
   },
   { collection: "Comenzi" }
 );
