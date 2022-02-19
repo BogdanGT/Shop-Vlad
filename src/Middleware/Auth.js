@@ -8,5 +8,4 @@ const verifyToken = (req, res, next) => {
   next();
 };
 
-// nume pret discount descirere (scurt/lung) rating brand categorie
 module.exports = verifyToken;

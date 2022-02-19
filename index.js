@@ -6,6 +6,7 @@ require("dotenv").config();
 
 const Auth = require("./src/routes/Auth");
 const Product = require("./src/routes/Product");
+const Comanda = require("./src/routes/Comenzi");
 mongoose
   .connect("mongodb://127.0.0.1:27017/test")
   .then(() => console.log("mongoose conected"))
@@ -15,6 +16,8 @@ app.use(cors());
 app.use(express.json());
 app.use("/auth", Auth);
 app.use("/product", Product);
+app.use("/comanda", Comanda);
+
 app.use("/Images", express.static("./Images"));
 
 app.listen(5000, () => {
