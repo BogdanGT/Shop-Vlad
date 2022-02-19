@@ -6,3 +6,6 @@ comenzi{
         id:produs
     }
 }
+proprietate noua status la comenzi
+
+ruta de editare status pentru comanda 
