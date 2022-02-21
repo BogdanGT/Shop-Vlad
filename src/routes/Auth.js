@@ -17,7 +17,7 @@ app.post("/login", async (req, res) => {
   const user = await User.findOne({ email });
 
   if (!user) {
-    return res.json({ errMsg: "User not found" });
+    return res.json({ errorMsg: "Email sau parola gresite!" });
   }
 
   const checkPassword = await bcrypt.compare(password, user.password);
@@ -33,7 +33,7 @@ app.post("/login", async (req, res) => {
   if (checkPassword) {
     return res.json({ successMsg: { accessToken: token } });
   } else {
-    return res.json({ successMsg: "not login" });
+    return res.json({ errorMsg: "Email sau parola gresite!" });
   }
 });
 
