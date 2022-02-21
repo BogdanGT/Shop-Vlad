@@ -45,7 +45,16 @@ app.get("/categorie/:product_category", async (req, res) => {
   res.json({ product });
 });
 
+app.get("/nume/:product_name", async (req, res, next) => {
+  const { product_name } = req.params;
+  const product = await Produs.find({ name: product_name });
+  if (product.length == 0) return res.json({ err: "Products not found." });
+  console.log(product);
+  res.send(product);
+});
+
 //------ADMIN------
+app.use(verifyAdmin);
 
 app.post("/", [upload.array("image")], (req, res) => {
   const { name, price, brand, descriptionS, descriptionL } = req.body;

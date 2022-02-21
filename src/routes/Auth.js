@@ -83,6 +83,18 @@ app.post("/register", async (req, res) => {
 
   res.json({ successMsg: { accessToken: token } });
 });
+app.put("/", verifytoken, async (req, res) => {
+  const { nume, prenume, adresa, telefon } = req.body;
+  const id = req.user.id;
+  const user = await User.findOne({ _id: id });
+  if (!user) return res.json({ err: "User not found" });
+  (user.name = nume),
+    (user.first_name = prenume),
+    (user.adress = adresa),
+    (user.phone_number = telefon),
+    user.save();
+  res.json({ msg: user });
+});
 
 app.put("/change-password", authMiddleware, async (req, res) => {
   // res.send(req.user.id);

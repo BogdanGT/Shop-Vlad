@@ -9,3 +9,7 @@ comenzi{
 proprietate noua status la comenzi
 
 ruta de editare status pentru comanda 
+edit user
+nume prenume adresa tel adresa
+
+cauta produs nume

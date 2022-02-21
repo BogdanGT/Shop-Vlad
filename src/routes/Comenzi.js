@@ -57,12 +57,10 @@ app.put("/:cid", verifyToken, async (req, res) => {
 
 app.get("/user", verifyToken, async (req, res) => {
   const id = req.user.id;
-  let comenzi;
-  try {
-    comenzi = await Comand.find({ creator: id });
-  } catch (error) {
-    return res.send({ err: "The creator does not exist" });
-  }
+
+  const comenzi = await Comand.find({ creator: id });
+  if (comenzi.length == 0) return res.send("shit");
+
   res.send(comenzi);
 });
 
