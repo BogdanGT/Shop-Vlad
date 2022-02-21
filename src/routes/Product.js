@@ -18,6 +18,21 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 //------USER------
+app.get("/last8", async (req, res) => {
+  const aggregate = await Produs.aggregate([
+    { $limit: 8 },
+    {
+      $group: {
+        _id: "$_id",
+        asd: "$price",
+      },
+    },
+    {
+      $sort: { timestamp: -1 },
+    },
+  ]);
+  res.json({ succesMsg: aggregate });
+});
 
 app.get("/", async (req, res) => {
   const products = await Produs.find();
@@ -61,7 +76,8 @@ app.post("/", [upload.array("image")], (req, res) => {
   const images = req.files.map((e) => {
     return e.path;
   });
-  console.log(images);
+  const date = new Date().toString();
+  console.log(date);
   Produs.create({
     name,
     price,
@@ -69,6 +85,7 @@ app.post("/", [upload.array("image")], (req, res) => {
     descriptionS,
     descriptionL,
     images: images,
+    timestamp: date,
   });
 
   res.send("Upload succeded!");

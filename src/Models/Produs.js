@@ -12,6 +12,7 @@ const produsSchema = new mongoose.Schema(
     informatii: Object,
     categorie: String,
     bloc: String,
+    timestamp: String,
   },
   { collection: "Produse" }
 );
