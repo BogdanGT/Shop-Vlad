@@ -3,13 +3,16 @@ const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema(
   {
     email: String,
-    username: String,
     password: String,
-    name: String,
-    first_name: String,
+    nume: String,
+    prenume: String,
     adress: String,
-    phone_number: String,
+    telefon: String,
     role: String,
+    adresa: {
+      type: Object,
+      default: {},
+    },
   },
   { collection: "Useri" }
 );

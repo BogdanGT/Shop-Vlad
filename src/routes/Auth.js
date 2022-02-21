@@ -38,8 +38,7 @@ app.post("/login", async (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const { email, username, password } = req.body;
-  console.log(email, password, username);
+  const { email, nume, prenume, telefon, password } = req.body;
 
   const existingUser = await User.findOne({ email });
 
@@ -69,7 +68,9 @@ app.post("/register", async (req, res) => {
 
   const user = await User.create({
     email,
-    username,
+    nume,
+    prenume,
+    telefon,
     password: passwordEnc,
   });
 
@@ -84,28 +85,55 @@ app.post("/register", async (req, res) => {
   res.json({ successMsg: { accessToken: token } });
 });
 app.put("/", verifytoken, async (req, res) => {
-  const { nume, prenume, adresa, telefon } = req.body;
+  const { nume, prenume, email, telefon } = req.body;
+  console.log(req.body);
+  console.log("asdasd");
   const id = req.user.id;
   const user = await User.findOne({ _id: id });
   if (!user) return res.json({ err: "User not found" });
-  (user.name = nume),
-    (user.first_name = prenume),
-    (user.adress = adresa),
-    (user.phone_number = telefon),
-    user.save();
-  res.json({ msg: user });
+  user.nume = nume;
+  user.prenume = prenume;
+  user.email = email;
+  user.telefon = telefon;
+  user.save();
+  res.json({ successMsg: user });
 });
 
 app.put("/change-password", authMiddleware, async (req, res) => {
-  // res.send(req.user.id);
-  const { password } = req.body;
+  const { parolaTa, parolaNoua } = req.body;
   const { id } = req.user;
   let user = await User.findOne({ _id: id });
-  if (!user) return res.send({ err: "User not found" });
-  const newPassword = await bcrypt.hash(password, 10);
+  if (!user) return res.send({ errorMsg: "User not found" });
+
+  const isGood = await bcrypt.compare(parolaTa, user.password);
+
+  if (!isGood) {
+    return res.json({ errorMsg: "Parola nu este buna!" });
+  }
+
+  const newPassword = await bcrypt.hash(parolaNoua, 10);
   user.password = newPassword;
   await user.save();
-  res.send(user);
+  res.send({ successMsg: "Parola a fost schimbata cu succes!" });
+});
+
+app.put("/change-address", authMiddleware, async (req, res) => {
+  const { strada, bloc, judet, localitate, codPostal, nume, prenume, telefon } =
+    req.body;
+  const user = await User.findById(req.user.id);
+
+  user.adresa = {
+    strada,
+    bloc,
+    judet,
+    localitate,
+    codPostal,
+    nume,
+    prenume,
+    telefon,
+  };
+  await user.save();
+  res.json({ successMsg: "Adresa a fost schimbata cu succes!" });
 });
 
 app.get("/user", authMiddleware, async (req, res) => {

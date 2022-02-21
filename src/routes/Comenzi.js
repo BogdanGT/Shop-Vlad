@@ -4,6 +4,7 @@ const Comand = require("../Models/Comenzi");
 const app = express.Router();
 const verifyToken = require("../Middleware/Auth");
 const verifyAdmin = require("../Middleware/Admin");
+const User = require("../Models/User");
 // -----USER-----
 app.post("/", verifyToken, async (req, res) => {
   const {
@@ -11,8 +12,8 @@ app.post("/", verifyToken, async (req, res) => {
     prenume,
     strada,
     bloc,
-    oras,
     judet,
+    localitate,
     codPostal,
     telefon,
     email,
@@ -23,22 +24,39 @@ app.post("/", verifyToken, async (req, res) => {
   console.log(req.user.id);
   // console.log();
   // console.log("asd");
-  const produs = await Comand.create({
+  await Comand.create({
     creator: req.user.id,
     nume,
     prenume,
     strada,
     bloc,
-    oras,
     judet,
+    localitate,
     codPostal,
     telefon,
     email,
     info,
     produse,
-    status: true,
+    status: "plasata",
   });
-  res.send(produs);
+  const user = await User.findById(req.user.id);
+  console.log(user.adresa);
+
+  if (Object.keys(user.adresa).length == 0) {
+    user.adresa = {
+      strada,
+      bloc,
+      judet,
+      localitate,
+      codPostal,
+      nume,
+      prenume,
+      telefon,
+    };
+    await user.save();
+  }
+
+  res.json({ successMsg: "Comanda a plasata cu succes!" });
 });
 
 app.put("/:cid", verifyToken, async (req, res) => {
