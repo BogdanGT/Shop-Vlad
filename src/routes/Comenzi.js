@@ -5,6 +5,7 @@ const app = express.Router();
 const verifyToken = require("../Middleware/Auth");
 const verifyAdmin = require("../Middleware/Admin");
 const User = require("../Models/User");
+const Produs = require("../Models/Produs");
 // -----USER-----
 app.post("/", verifyToken, async (req, res) => {
   const {
@@ -19,11 +20,8 @@ app.post("/", verifyToken, async (req, res) => {
     email,
     info,
     produse,
+    cartProductsIds,
   } = req.body;
-  // console.log(req.body);
-  console.log(req.user.id);
-  // console.log();
-  // console.log("asd");
   await Comand.create({
     creator: req.user.id,
     nume,
@@ -40,7 +38,6 @@ app.post("/", verifyToken, async (req, res) => {
     status: "plasata",
   });
   const user = await User.findById(req.user.id);
-  console.log(user.adresa);
 
   if (Object.keys(user.adresa).length == 0) {
     user.adresa = {
@@ -55,6 +52,12 @@ app.post("/", verifyToken, async (req, res) => {
     };
     await user.save();
   }
+
+  JSON.parse(cartProductsIds).map(async (el) => {
+    const produs = await Produs.findById(el);
+    produs.timestamp = Date.now();
+    await produs.save();
+  });
 
   res.json({ successMsg: "Comanda a plasata cu succes!" });
 });

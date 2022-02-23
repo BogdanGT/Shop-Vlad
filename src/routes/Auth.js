@@ -10,6 +10,7 @@ const verifytoken = require("../Middleware/Auth");
 const upload = require("../Middleware/Multer");
 // MODELS
 const User = require("../Models/User");
+const Comanda = require("../Models/Comenzi");
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -134,6 +135,22 @@ app.put("/change-address", authMiddleware, async (req, res) => {
   };
   await user.save();
   res.json({ successMsg: "Adresa a fost schimbata cu succes!" });
+});
+
+app.get("/comenzi", authMiddleware, async (req, res) => {
+  const comenzi = await Comanda.find({ creator: req.user.id }).populate(
+    "produse"
+  );
+  console.log(comenzi);
+
+  res.json({ successMsg: comenzi });
+});
+
+app.post("/contact", authMiddleware, async (req, res) => {
+  const { name, mail, subiect, mesaj } = req.body;
+
+  console.log(req.body);
+  res.json({ successMsg: "Emailul a fost trimis cu succes!" });
 });
 
 app.get("/user", authMiddleware, async (req, res) => {
