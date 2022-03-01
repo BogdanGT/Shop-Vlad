@@ -18,6 +18,12 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 //------USER------
+app.get("/filter", (req, res) => {
+  const info = req.query;
+  console.log(info);
+  res.send(info);
+});
+
 app.get("/last8", async (req, res) => {
   const aggregate = await Produs.aggregate([
     { $limit: 8 },
