@@ -17,33 +17,70 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+//------ADMIN------
+
+app.post("/", [upload.array("image"), verifyAdmin], async (req, res) => {
+  const { name, price, brand, descriptionS, descriptionL } = req.body;
+  const images = req.files.map((e) => {
+    return e.path;
+  });
+  await Produs.create({
+    name,
+    price,
+    brand,
+    descriptionS,
+    descriptionL,
+    images: images,
+    timestamp: 0,
+  });
+
+  res.send("Upload succeded!");
+});
+
+app.delete("/:id", verifyAdmin, async (req, res) => {
+  const { id } = req.params;
+
+  const produs = await Produs.findOne({ _id: id });
+
+  try {
+    await Produs.deleteOne({ _id: produs._id });
+  } catch (error) {
+    return res.json({ err: error.message });
+  }
+
+  res.json({ err: "Delete was succesfull." });
+});
+
 //------USER------
-app.get("/filter", (req, res) => {
-  const info = req.query;
-  console.log(info);
-  res.send(info);
+
+app.get("/search", async (req, res) => {
+  const { name } = req.query;
+  if (name) {
+    console.log(name);
+    const produse = await Produs.find({
+      name: { $regex: name, $options: "i" },
+    });
+
+    res.json({ successMsg: produse });
+  } else {
+    const produse = await Produs.find({});
+    res.json({ successMsg: produse });
+  }
 });
 
 app.get("/last8", async (req, res) => {
   const aggregate = await Produs.aggregate([
-    { $limit: 8 },
-    {
-      $group: {
-        _id: "$_id",
-        asd: "$price",
-      },
-    },
+    { $match: { timestamp: { $gt: 0 } } },
     {
       $sort: { timestamp: -1 },
     },
+    { $limit: 8 },
   ]);
-  res.json({ succesMsg: aggregate });
+  res.json({ successMsg: aggregate });
 });
 
 app.get("/", async (req, res) => {
   const products = await Produs.find();
-  console.log(products);
-  console.log("asdasd");
   res.json({ products });
 });
 
@@ -72,43 +109,6 @@ app.get("/nume/:product_name", async (req, res, next) => {
   if (product.length == 0) return res.json({ err: "Products not found." });
   console.log(product);
   res.send(product);
-});
-
-//------ADMIN------
-app.use(verifyAdmin);
-
-app.post("/", [upload.array("image")], (req, res) => {
-  const { name, price, brand, descriptionS, descriptionL } = req.body;
-  const images = req.files.map((e) => {
-    return e.path;
-  });
-  const date = new Date().toString();
-  console.log(date);
-  Produs.create({
-    name,
-    price,
-    brand,
-    descriptionS,
-    descriptionL,
-    images: images,
-    timestamp: date,
-  });
-
-  res.send("Upload succeded!");
-});
-
-app.delete("/:id", async (req, res) => {
-  const { id } = req.params;
-
-  const produs = await Produs.findOne({ _id: id });
-
-  try {
-    await Produs.deleteOne({ _id: produs._id });
-  } catch (error) {
-    return res.json({ err: error.message });
-  }
-
-  res.json({ err: "Delete was succesfull." });
 });
 
 module.exports = app;
