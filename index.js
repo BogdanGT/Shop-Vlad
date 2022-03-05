@@ -5,7 +5,7 @@ const cors = require("cors");
 require("dotenv").config();
 
 const Auth = require("./src/routes/Auth");
-const Product = require("./src/routes/Product");
+const Product = require("./src/routes/Produs");
 const Comanda = require("./src/routes/Comenzi");
 mongoose
   .connect("mongodb://127.0.0.1:27017/test")
