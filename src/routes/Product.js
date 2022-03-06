@@ -19,8 +19,8 @@ const upload = multer({ storage });
 
 //------ADMIN------
 
-app.post("/", [upload.array("image"), verifyAdmin], async (req, res) => {
-  const { name, price, brand, descriptionS, descriptionL } = req.body;
+app.post("/", [upload.array("image")], async (req, res) => {
+  const { name, price, brand, descriptionS, descriptionL, stock } = req.body;
   const images = req.files.map((e) => {
     return e.path;
   });
@@ -28,6 +28,7 @@ app.post("/", [upload.array("image"), verifyAdmin], async (req, res) => {
     name,
     price,
     brand,
+    stock,
     descriptionS,
     descriptionL,
     images: images,
@@ -49,6 +50,16 @@ app.delete("/:id", verifyAdmin, async (req, res) => {
   }
 
   res.json({ err: "Delete was succesfull." });
+});
+
+app.get("/stock", async (req, res) => {
+  const aggregate = await Produs.aggregate([
+    { $match: { stock: { $lt: 10 } } },
+    {
+      $sort: { stock: 1 },
+    },
+  ]);
+  res.json({ successMsg: aggregate });
 });
 
 //------USER------
