@@ -149,3 +149,10 @@ exports.my_user = async (req, res) => {
 
   res.json({ user });
 };
+
+exports.verify_admin = async (req, res) => {
+  const user = await User.findById(req.user.id);
+  console.log(user.role);
+
+  res.json({ successMsg: { role: user.role } });
+};

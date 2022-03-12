@@ -1,18 +1,22 @@
 const Produs = require("../../Models/Produs");
 
 exports.create_produs = async (req, res) => {
-  const { name, price, brand, descriptionS, descriptionL } = req.body;
+  const { name, price, categorie, stock, descriptionL, subcategorii } =
+    req.body;
+  console.log(JSON.parse(subcategorii));
+  console.log("asdasdasd");
   const images = req.files.map((e) => {
     return e.path;
   });
   await Produs.create({
     name,
     price,
-    brand,
-    descriptionS,
+    categorie,
+    stock,
     descriptionL,
     images: images,
     timestamp: 0,
+    subcategorie: JSON.parse(subcategorii),
   });
 
   res.json({ successMsg: "Produsul a fost adaugat!" });
@@ -30,4 +34,14 @@ exports.delete_produs = async (req, res) => {
   }
 
   res.json({ errorMsg: "Produsul a fost sters!" });
+};
+
+exports.get_stock = async (req, res) => {
+  const aggregate = await Produs.aggregate([
+    { $match: { stock: { $lt: 20 } } },
+    {
+      $sort: { stock: 1 },
+    },
+  ]);
+  res.json({ successMsg: aggregate });
 };

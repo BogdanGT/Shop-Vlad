@@ -11,6 +11,7 @@ const {
   my_user,
   register,
   update_user,
+  verify_admin,
 } = require("../controllers/Auth/User");
 
 app.post("/login", login);
@@ -28,5 +29,7 @@ app.get("/comenzi", authMiddleware, my_comenzi);
 app.post("/contact", authMiddleware, contact);
 
 app.get("/user", authMiddleware, my_user);
+
+app.get("/verify_admin", authMiddleware, verify_admin);
 
 module.exports = app;

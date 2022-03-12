@@ -15,6 +15,7 @@ const produsSchema = new mongoose.Schema(
     timestamp: Number,
     variation: Object,
     nr_solds: Number,
+    subcategorie: Array,
   },
   { collection: "Produse" }
 );

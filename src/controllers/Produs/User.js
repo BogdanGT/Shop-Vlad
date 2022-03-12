@@ -1,6 +1,7 @@
 const Produs = require("../../Models/Produs");
 
 exports.get_all_products = async (req, res) => {
+  console.log("asdasdasd");
   const { name } = req.query;
   if (name) {
     console.log(name);

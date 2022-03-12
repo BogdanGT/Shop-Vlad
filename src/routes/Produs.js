@@ -13,7 +13,11 @@ const {
   nushcee,
   top_vandute,
 } = require("../controllers/Produs/User");
-const { create_produs, delete_produs } = require("../controllers/Produs/Admin");
+const {
+  create_produs,
+  delete_produs,
+  get_stock,
+} = require("../controllers/Produs/Admin");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -29,13 +33,15 @@ const upload = multer({ storage });
 
 //------ADMIN------
 
-app.post("/", [isAdmin, upload.array("image")], create_produs);
+app.post("/", [upload.array("image")], create_produs);
 
 app.delete("/:id", isAdmin, delete_produs);
 
+app.get("/stock", get_stock);
+
 //------USER------
 
-app.get("/search", isUser, get_all_products);
+app.get("/search", get_all_products);
 
 app.get("/last8", isUser, last_8);
 
