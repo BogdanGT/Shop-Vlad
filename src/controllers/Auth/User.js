@@ -30,7 +30,7 @@ exports.login = async (req, res) => {
 };
 
 exports.register = async (req, res) => {
-  const { email, nume, prenume, telefon, password } = req.body;
+  const { email, nume, prenume, telefon, password, adresa } = req.body;
 
   const existingUser = await User.findOne({ email });
 
@@ -64,6 +64,8 @@ exports.register = async (req, res) => {
     prenume,
     telefon,
     password: passwordEnc,
+    role: "user",
+    adresa,
   });
 
   const payload = {
