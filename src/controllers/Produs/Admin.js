@@ -1,5 +1,15 @@
 const Produs = require("../../Models/Produs");
 
+exports.get_stock = async (req, res) => {
+  const aggregate = await Produs.aggregate([
+    { $match: { stock: { $lt: 20 } } },
+    {
+      $sort: { stock: 1 },
+    },
+  ]);
+  res.json({ successMsg: aggregate });
+};
+
 exports.create_produs = async (req, res) => {
   const { name, price, categorie, stock, descriptionL, subcategorii } =
     req.body;

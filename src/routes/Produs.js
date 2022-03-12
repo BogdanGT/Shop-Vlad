@@ -33,7 +33,7 @@ const upload = multer({ storage });
 
 //------ADMIN------
 
-app.post("/", [upload.array("image")], create_produs);
+app.post("/", upload.array("images"), create_produs);
 
 app.delete("/:id", isAdmin, delete_produs);
 
