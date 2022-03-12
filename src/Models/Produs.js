@@ -13,6 +13,9 @@ const produsSchema = new mongoose.Schema(
     categorie: String,
     bloc: String,
     timestamp: Number,
+    variation: Object,
+    nr_solds: Number,
+    subcategorie: Array,
   },
   { collection: "Produse" }
 );
