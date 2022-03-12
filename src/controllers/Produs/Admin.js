@@ -11,22 +11,28 @@ exports.get_stock = async (req, res) => {
 };
 
 exports.create_produs = async (req, res) => {
-  const { name, price, categorie, stock, descriptionL, subcategorii } =
-    req.body;
-  console.log(JSON.parse(subcategorii));
-  console.log("asdasdasd");
+  const {
+    name,
+    categorie,
+    descriptionL,
+    subcategorii,
+    descriptionS,
+    nr_solds,
+  } = req.body;
   const images = req.files.map((e) => {
     return e.path;
   });
   await Produs.create({
     name,
-    price,
     categorie,
-    stock,
+    descriptionS,
     descriptionL,
     images: images,
     timestamp: 0,
     subcategorie: JSON.parse(subcategorii),
+    informatii,
+    variation,
+    nr_solds,
   });
 
   res.json({ successMsg: "Produsul a fost adaugat!" });

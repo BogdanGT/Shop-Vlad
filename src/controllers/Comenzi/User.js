@@ -1,3 +1,4 @@
+const Comanda = require("../../Models/Comenzi");
 const Produs = require("../../Models/Produs");
 const User = require("../../Models/User");
 
@@ -15,7 +16,7 @@ exports.create_comanda = async (req, res) => {
     info,
     produse,
   } = req.body;
-  await Comand.create({
+  await Comanda.create({
     creator: req.user.id,
     nume,
     prenume,
