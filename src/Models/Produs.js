@@ -18,4 +18,8 @@ const produsSchema = new mongoose.Schema(
 
 const Produs = mongoose.model("Produs", produsSchema);
 
+// TO DO: get request pt comenzi plasate/confirmate/toate comenzile
+//  vizualizeaza comanda screen
+//  confirma comanda la comenzi plasate fetch edit plasata
+
 module.exports = Produs;
