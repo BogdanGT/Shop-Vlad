@@ -18,3 +18,15 @@ exports.all_comenzi = async (req, res) => {
   const comenzi = await Comanda.find({});
   res.json({ successMsg: comenzi });
 };
+
+exports.plasate_comenzi = async (req, res) => {
+  const comenzi = await Comanda.find({ status: "plasat" });
+  console.log(comenzi);
+  res.json({ successMsg: comenzi });
+};
+
+exports.confirmate_comenzi = async (req, res) => {
+  const comenzi = await Comanda.find({ status: "confirmat" });
+  console.log(comenzi);
+  res.json({ successMsg: comenzi });
+};

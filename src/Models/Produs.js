@@ -3,14 +3,19 @@ const mongoose = require("mongoose");
 const produsSchema = new mongoose.Schema(
   {
     name: String,
-    descriptionS: String,
-    descriptionL: String,
+    description: String,
     images: Array,
     informatii: Object,
     categorie: String,
-    timestamp: Number,
+    timestamp: {
+      type: Number,
+      default: 0,
+    },
     variation: Object,
-    nr_solds: Number,
+    nr_solds: {
+      type: Number,
+      default: 0,
+    },
     subcategorie: Array,
   },
   { collection: "Produse" }

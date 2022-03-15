@@ -2,7 +2,7 @@ const Produs = require("../../Models/Produs");
 
 exports.get_stock = async (req, res) => {
   const aggregate = await Produs.aggregate([
-    { $match: { stock: { $lt: 20 } } },
+    { $match: { "variation.stock": { $lt: 20 } } },
     {
       $sort: { stock: 1 },
     },
@@ -11,28 +11,19 @@ exports.get_stock = async (req, res) => {
 };
 
 exports.create_produs = async (req, res) => {
-  const {
-    name,
-    categorie,
-    descriptionL,
-    subcategorii,
-    descriptionS,
-    nr_solds,
-  } = req.body;
+  const { name, categorie, subcategorii, description, informatii, variation } =
+    req.body;
   const images = req.files.map((e) => {
     return e.path;
   });
   await Produs.create({
     name,
     categorie,
-    descriptionS,
-    descriptionL,
-    images: images,
-    timestamp: 0,
+    description,
+    images,
     subcategorie: JSON.parse(subcategorii),
-    informatii,
-    variation,
-    nr_solds,
+    informatii: JSON.parse(informatii),
+    variation: JSON.parse(variation),
   });
 
   res.json({ successMsg: "Produsul a fost adaugat!" });
