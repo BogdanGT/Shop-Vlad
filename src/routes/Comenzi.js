@@ -13,7 +13,11 @@ const {
 // -----ADMIN-----
 app.put("/:cid", isAdmin, update_status);
 
-app.get("/", isAdmin, all_comenzi);
+app.get("/", all_comenzi);
+
+app.get("/plasate", plasate_comenzi);
+
+app.get("/confirmate", confirmate_comenzi);
 
 app.get("/plasate", plasate_comenzi);
 
