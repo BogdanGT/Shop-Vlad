@@ -17,6 +17,7 @@ const {
   create_produs,
   delete_produs,
   get_stock,
+  update_produs,
 } = require("../controllers/Produs/Admin");
 
 const storage = multer.diskStorage({
@@ -36,6 +37,8 @@ const upload = multer({ storage });
 app.post("/", upload.array("images"), create_produs);
 
 app.delete("/:id", isAdmin, delete_produs);
+
+app.put("/:id", upload.array("images"), update_produs);
 
 app.get("/stock", get_stock);
 
