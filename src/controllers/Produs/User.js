@@ -1,10 +1,8 @@
 const Produs = require("../../Models/Produs");
 
 exports.get_all_products = async (req, res) => {
-  console.log("asdasdasd");
   const { name } = req.query;
   if (name) {
-    console.log(name);
     const produse = await Produs.find({
       name: { $regex: name, $options: "i" },
     });
@@ -60,6 +58,6 @@ exports.nushcee = async (req, res, next) => {
   const { product_name } = req.params;
   const product = await Produs.find({ name: product_name });
   if (product.length == 0) return res.json({ err: "Products not found." });
-  console.log(product);
+
   res.send(product);
 };

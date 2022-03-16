@@ -7,7 +7,7 @@ const comandSchema = new mongoose.Schema(
     nume: String,
     prenume: String,
     strada: String,
-    produse: Array,
+    produse: [{ type: mongoose.Schema.Types.ObjectId, ref: "Produs" }],
     info: String,
     bloc: String,
     judet: String,

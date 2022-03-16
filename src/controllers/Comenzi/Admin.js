@@ -1,7 +1,6 @@
 const Comanda = require("../../Models/Comenzi");
 
 exports.update_status = async (req, res) => {
-  const { status } = req.body;
   const id = req.user.id;
   const { cid } = req.params;
   const comand = await Comanda.findOne({ _id: cid });
@@ -9,7 +8,7 @@ exports.update_status = async (req, res) => {
   if (comand.creator != id) {
     return res.json({ err: "You need to be the owner of the command." });
   }
-  comand.status = status;
+  comand.status = "anulata";
   await comand.save();
   res.json({ successMsg: "Statusul produsul a fost schimbat!" });
 };
@@ -19,9 +18,36 @@ exports.all_comenzi = async (req, res) => {
   res.json({ successMsg: comenzi });
 };
 
+exports.get_comanda = async (req, res) => {
+  const { cid } = req.params;
+  const comenzi = await Comanda.findOne({ _id: cid }).populate("produse");
+  console.log(comenzi);
+  res.json({ successMsg: comenzi });
+};
+
+exports.update_status_admin = async (req, res) => {
+  const { cid } = req.params;
+  const { status } = req.body;
+  console.log(status);
+  const comenzi = await Comanda.findOne({ _id: cid });
+  comenzi.status = status;
+  await comenzi.save();
+  res.json({ successMsg: "Produsul a fost confirmat!" });
+};
+
+exports.delete_comanda = async (req, res) => {
+  const { cid } = req.params;
+  const { status } = req.body;
+  console.log(status);
+  const comenzi = await Comanda.findOne({ _id: cid });
+  await comenzi.remove();
+
+  res.json({ successMsg: "Produsul a fost confirmat!" });
+};
+
 exports.plasate_comenzi = async (req, res) => {
   const comenzi = await Comanda.find({ status: "plasat" });
-  console.log(comenzi);
+  console.log("asdasd");
   res.json({ successMsg: comenzi });
 };
 

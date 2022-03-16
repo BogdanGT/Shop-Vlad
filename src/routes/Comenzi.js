@@ -8,22 +8,29 @@ const {
   all_comenzi,
   plasate_comenzi,
   confirmate_comenzi,
+  get_comanda,
+  update_status_admin,
+  delete_comanda,
 } = require("../controllers/Comenzi/Admin");
 
 // -----ADMIN-----
-app.put("/:cid", isAdmin, update_status);
 
 app.get("/", all_comenzi);
 
-app.get("/plasate", plasate_comenzi);
-
-app.get("/confirmate", confirmate_comenzi);
+app.get("/single/:cid", get_comanda);
 
 app.get("/plasate", plasate_comenzi);
 
 app.get("/confirmate", confirmate_comenzi);
+
+app.put("/update/:cid", update_status_admin);
+
+app.delete("/delete/:cid", delete_comanda);
 
 // -----USER-----
+
 app.post("/", isUser, create_comanda);
+
+app.put("/:cid", isUser, update_status);
 
 module.exports = app;
