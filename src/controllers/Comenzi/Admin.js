@@ -45,13 +45,13 @@ exports.delete_comanda = async (req, res) => {
   res.json({ successMsg: "Produsul a fost confirmat!" });
 };
 
-exports.plasate_comenzi = async (req, res) => {
+exports.comenzi_plasate = async (req, res) => {
   const comenzi = await Comanda.find({ status: "plasat" });
   console.log("asdasd");
   res.json({ successMsg: comenzi });
 };
 
-exports.confirmate_comenzi = async (req, res) => {
+exports.comenzi_confirmate = async (req, res) => {
   const comenzi = await Comanda.find({ status: "confirmat" });
   console.log(comenzi);
   res.json({ successMsg: comenzi });

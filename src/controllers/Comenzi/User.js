@@ -28,9 +28,10 @@ exports.create_comanda = async (req, res) => {
     telefon,
     email,
     info,
-    produse,
+    produse: produse,
     status: "plasata",
   });
+
   const user = await User.findById(req.user.id);
 
   if (Object.keys(user.adresa).length == 0) {
@@ -57,6 +58,6 @@ exports.create_comanda = async (req, res) => {
       { safe: true, multi: true }
     );
   });
-
+  console.log("asdfs");
   res.json({ successMsg: "Comanda a plasata cu succes!" });
 };
