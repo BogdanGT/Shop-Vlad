@@ -40,19 +40,21 @@ exports.delete_comanda = async (req, res) => {
   const { status } = req.body;
   console.log(status);
   const comenzi = await Comanda.findOne({ _id: cid });
-  await comenzi.remove();
+  comenzi.status = "Anulata";
+  await comenzi.save();
+  // await comenzi.remove();
 
   res.json({ successMsg: "Produsul a fost confirmat!" });
 };
 
 exports.comenzi_plasate = async (req, res) => {
-  const comenzi = await Comanda.find({ status: "plasat" });
+  const comenzi = await Comanda.find({ status: "Plasata" });
   console.log("asdasd");
   res.json({ successMsg: comenzi });
 };
 
 exports.comenzi_confirmate = async (req, res) => {
-  const comenzi = await Comanda.find({ status: "confirmat" });
+  const comenzi = await Comanda.find({ status: "Confirmata" });
   console.log(comenzi);
   res.json({ successMsg: comenzi });
 };

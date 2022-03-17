@@ -31,6 +31,6 @@ app.delete("/delete/:cid", delete_comanda);
 
 app.post("/", isUser, create_comanda);
 
-app.put("/:cid", isUser, update_status);
+app.put("/:cid", update_status);
 
 module.exports = app;

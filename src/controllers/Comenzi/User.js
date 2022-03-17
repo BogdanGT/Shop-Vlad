@@ -29,7 +29,7 @@ exports.create_comanda = async (req, res) => {
     email,
     info,
     produse,
-    status: "plasat",
+    status: "Plasata",
   });
 
   const user = await User.findById(req.user.id);
