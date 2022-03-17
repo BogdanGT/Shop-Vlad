@@ -90,7 +90,7 @@ exports.update_produs = async (req, res) => {
 
 exports.get_stock = async (req, res) => {
   const aggregate = await Produs.aggregate([
-    { $match: { stock: { $lt: 20 } } },
+    { $match: { "variation.stock": { $lt: 20 } } },
     {
       $sort: { stock: 1 },
     },

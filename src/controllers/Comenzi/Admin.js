@@ -20,7 +20,7 @@ exports.all_comenzi = async (req, res) => {
 
 exports.get_comanda = async (req, res) => {
   const { cid } = req.params;
-  const comenzi = await Comanda.findOne({ _id: cid }).populate("produse");
+  const comenzi = await Comanda.findOne({ _id: cid });
   console.log(comenzi);
   res.json({ successMsg: comenzi });
 };
