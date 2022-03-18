@@ -2,9 +2,11 @@ const express = require("express");
 const app = express.Router();
 const isUser = require("../Middleware/User");
 const isAdmin = require("../Middleware/Admin");
-const { create_comanda } = require("../controllers/Comenzi/User");
 const {
+  create_comanda,
   update_status,
+} = require("../controllers/Comenzi/User");
+const {
   all_comenzi,
   comenzi_plasate,
   comenzi_confirmate,

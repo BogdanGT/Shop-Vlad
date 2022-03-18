@@ -58,6 +58,18 @@ exports.create_comanda = async (req, res) => {
       { safe: true, multi: true }
     );
   });
-  console.log("asdfs");
   res.json({ successMsg: "Comanda a plasata cu succes!" });
+};
+
+exports.update_status = async (req, res) => {
+  const id = req.user.id;
+  const { cid } = req.params;
+  const comand = await Comanda.findOne({ _id: cid });
+  if (!comand) return res.json({ err: "Comand not found" });
+  if (comand.creator != id) {
+    return res.json({ err: "You need to be the owner of the command." });
+  }
+  comand.status = "Anulata";
+  await comand.save();
+  res.json({ successMsg: "Statusul produsul a fost schimbat!" });
 };
