@@ -11,6 +11,7 @@ const {
   get_comanda,
   update_status_admin,
   delete_comanda,
+  update_comanda,
 } = require("../controllers/Comenzi/Admin");
 
 // -----ADMIN-----
@@ -26,6 +27,8 @@ app.get("/confirmate", confirmate_comenzi);
 app.put("/update/:cid", update_status_admin);
 
 app.delete("/delete/:cid", delete_comanda);
+
+app.put("/update_comanda/:cid", update_comanda);
 
 // -----USER-----
 

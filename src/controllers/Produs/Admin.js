@@ -1,15 +1,5 @@
 const Produs = require("../../Models/Produs");
 
-exports.get_stock = async (req, res) => {
-  const aggregate = await Produs.aggregate([
-    { $match: { "variation.stock": { $lt: 20 } } },
-    {
-      $sort: { stock: 1 },
-    },
-  ]);
-  res.json({ successMsg: aggregate });
-};
-
 exports.create_produs = async (req, res) => {
   const { name, categorie, subcategorii, description, informatii, variation } =
     req.body;
@@ -57,19 +47,7 @@ exports.update_produs = async (req, res) => {
   const images = req.files.map((e) => {
     return e.path;
   });
-  const produs = await Produs.findById(id);
 
-  // produs.images.map((el, index) => {
-  //   JSON.parse(imagesUri).map((el2) => {
-  //     if (el == el2) {
-  //       console.log(el, "bun");
-  //     } else {
-  //       console.log(el, "rau");
-  //     }
-  //   });
-  // });
-
-  console.log(imagesUri.concat(produs.images));
   await Produs.updateOne(
     { _id: id },
     {
@@ -90,10 +68,47 @@ exports.update_produs = async (req, res) => {
 
 exports.get_stock = async (req, res) => {
   const aggregate = await Produs.aggregate([
-    { $match: { "variation.stock": { $lt: 20 } } },
+    { $match: { "variation.stock": { $lt: 5 } } },
     {
-      $sort: { stock: 1 },
+      $sort: { "variation.stock": 1 },
     },
   ]);
-  res.json({ successMsg: aggregate });
+  let produse = [];
+  aggregate.forEach((produs, index_produs) => {
+    produs.variation.forEach((vars, index_vars) => {
+      if (vars.stock <= 5) {
+        produse.push({
+          nume: produs.nume,
+          description: produs.description,
+          images: produs.images,
+          informatii: produs.informatii,
+          categorie: produs.categorie,
+          timestamp: produs.timestamp,
+          nume_marime: vars.nume,
+          stock_marime: vars.stock,
+          pret_marime: vars.pret,
+          nr_solds: produs.nr_solds,
+          subcategorie: produs.subcategorie,
+          _id: produs._id,
+        });
+      }
+    });
+  });
+  res.json({ successMsg: produse });
+};
+
+exports.update_aprovizionare = async (req, res) => {
+  await Produs.updateOne(
+    {
+      _id: req.params.product_id,
+      "variation.nume": req.body.nume,
+    },
+    {
+      $set: {
+        "variation.$.stock": req.body.stoc,
+      },
+    },
+    { new: true }
+  );
+  console.log(req.body, req.params.product_id);
 };

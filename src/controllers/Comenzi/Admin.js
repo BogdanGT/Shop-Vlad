@@ -51,6 +51,37 @@ exports.plasate_comenzi = async (req, res) => {
   res.json({ successMsg: comenzi });
 };
 
+exports.update_comanda = async (req, res) => {
+  const {
+    nume,
+    prenume,
+    telefon,
+    email,
+    judet,
+    localitate,
+    strada,
+    codPostal,
+    produse,
+  } = req.body;
+  console.log(req.params.cid);
+  await Comanda.updateOne(
+    { _id: req.params.cid },
+    {
+      nume,
+      prenume,
+      telefon,
+      email,
+      judet,
+      localitate,
+      strada,
+      codPostal,
+      produse,
+    }
+  );
+
+  res.json({ successMsg: "asd" });
+};
+
 exports.confirmate_comenzi = async (req, res) => {
   const comenzi = await Comanda.find({ status: "confirmat" });
   console.log(comenzi);
