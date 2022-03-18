@@ -6,8 +6,8 @@ const { create_comanda } = require("../controllers/Comenzi/User");
 const {
   update_status,
   all_comenzi,
-  plasate_comenzi,
-  confirmate_comenzi,
+  comenzi_plasate,
+  comenzi_confirmate,
   get_comanda,
   update_status_admin,
   delete_comanda,
@@ -20,9 +20,9 @@ app.get("/", all_comenzi);
 
 app.get("/single/:cid", get_comanda);
 
-app.get("/plasate", plasate_comenzi);
+app.get("/plasate", comenzi_plasate);
 
-app.get("/confirmate", confirmate_comenzi);
+app.get("/confirmate", comenzi_confirmate);
 
 app.put("/update/:cid", update_status_admin);
 
@@ -34,6 +34,6 @@ app.put("/update_comanda/:cid", update_comanda);
 
 app.post("/", isUser, create_comanda);
 
-app.put("/:cid", isUser, update_status);
+app.put("/:cid", update_status);
 
 module.exports = app;
