@@ -1,4 +1,6 @@
 const Comanda = require("../../Models/Comenzi");
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Schema.Types.ObjectId;
 
 exports.update_status = async (req, res) => {
   const id = req.user.id;
@@ -13,9 +15,34 @@ exports.update_status = async (req, res) => {
   res.json({ successMsg: "Statusul produsul a fost schimbat!" });
 };
 
+// exports.all_comenzi = async (req, res) => {
+//   const { id } = req.query;
+//   const comenzi = await Comanda.find({});
+//   res.json({ successMsg: comenzi });
+// };
+
 exports.all_comenzi = async (req, res) => {
-  const comenzi = await Comanda.find({});
+  const { id } = req.query;
+  console.log(id);
+  const comenzi = Comanda.find({});
+  console.log(comenzi);
   res.json({ successMsg: comenzi });
+  // if (id) {
+  //   console.log(id);
+  //   const comenzi = Comanda.findById({
+  //     _id: id,
+  //   });
+  //   // const comenzi = await Comanda.find({
+  //   //   _id: {
+  //   //     $regex: id,
+  //   //     $options: "i",
+  //   //   },
+  //   // });
+  //   res.json({ successMsg: comenzi });
+  // } else {
+  //   const comenzi = await Comanda.find({});
+  //   res.json({ successMsg: comenzi });
+  // }
 };
 
 exports.get_comanda = async (req, res) => {
