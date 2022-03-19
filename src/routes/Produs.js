@@ -12,6 +12,7 @@ const {
   last_8,
   nushcee,
   top_vandute,
+  adaugate_recent,
 } = require("../controllers/Produs/User");
 const {
   create_produs,
@@ -52,6 +53,8 @@ app.get("/search", get_all_products);
 app.get("/last8", isUser, last_8);
 
 app.get("/top_vandute", isUser, top_vandute);
+
+app.get("/adaugate_recent", isUser, adaugate_recent);
 
 app.get("/:product_id", isUser, get_product);
 

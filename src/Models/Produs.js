@@ -7,9 +7,13 @@ const produsSchema = new mongoose.Schema(
     images: Array,
     informatii: Object,
     categorie: String,
-    timestamp: {
+    timestamp_cumparare: {
       type: Number,
       default: 0,
+    },
+    timestamp_adaugare: {
+      type: Number,
+      default: Date.now(),
     },
     variation: Object,
     nr_solds: {
