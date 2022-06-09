@@ -30,7 +30,8 @@ exports.login = async (req, res) => {
 };
 
 exports.register = async (req, res) => {
-  const { email, nume, prenume, telefon, password, adresa } = req.body;
+  const { email, nume, prenume, telefon, password } = req.body;
+  console.log(req.body);
 
   const existingUser = await User.findOne({ email });
 
@@ -58,15 +59,16 @@ exports.register = async (req, res) => {
 
   const passwordEnc = await bcrypt.hash(password, 10);
 
-  const user = await User.create({
+  const user = new User({
     email,
     nume,
     prenume,
     telefon,
     password: passwordEnc,
     role: "user",
-    adresa,
+    adresa: {},
   });
+  console.log(user);
 
   const payload = {
     user: { id: user._id },
@@ -75,6 +77,8 @@ exports.register = async (req, res) => {
   const token = jwt.sign(payload, process.env.JWT_SECRET, {
     expiresIn: 60 * 60 * 24 * 30,
   });
+
+  await user.save();
 
   res.json({ successMsg: { accessToken: token } });
 };

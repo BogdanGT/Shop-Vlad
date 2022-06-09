@@ -68,7 +68,7 @@ exports.update_produs = async (req, res) => {
 
 exports.get_stock = async (req, res) => {
   const aggregate = await Produs.aggregate([
-    { $match: { "variation.stock": { $lt: 5 } } },
+    { $match: { "variation.stock": { $lt: 3 } } },
     {
       $sort: { "variation.stock": 1 },
     },
@@ -76,7 +76,7 @@ exports.get_stock = async (req, res) => {
   let produse = [];
   aggregate.forEach((produs, index_produs) => {
     produs.variation.forEach((vars, index_vars) => {
-      if (vars.stock <= 5) {
+      if (vars.stock <= 3) {
         produse.push({
           nume: produs.nume,
           description: produs.description,

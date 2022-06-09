@@ -50,15 +50,15 @@ app.put("/update_aprovizionare/:product_id", update_aprovizionare);
 
 app.get("/search", get_all_products);
 
-app.get("/last8", isUser, last_8);
+app.get("/last8", last_8);
 
-app.get("/top_vandute", isUser, top_vandute);
+app.get("/top_vandute", top_vandute);
 
-app.get("/adaugate_recent", isUser, adaugate_recent);
+app.get("/adaugate_recent", adaugate_recent);
 
-app.get("/:product_id", isUser, get_product);
+app.get("/:product_id", get_product);
 
-app.get("/categorie/:product_category", isUser, get_products_by_category);
+app.get("/categorie/:product_category", get_products_by_category);
 
 app.get("/nume/:product_name", isUser, nushcee);
 

@@ -8,10 +8,7 @@ const userSchema = new mongoose.Schema(
     prenume: String,
     telefon: String,
     role: String,
-    adresa: {
-      type: Object,
-      default: {},
-    },
+    adresa: Object,
   },
   { collection: "Useri" }
 );

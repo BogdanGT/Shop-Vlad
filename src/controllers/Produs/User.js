@@ -17,6 +17,7 @@ exports.get_all_products = async (req, res) => {
 exports.get_product = async (req, res) => {
   const product_id = req.params.product_id;
   const product = await Produs.findById(product_id);
+  console.log("asdasdasd");
 
   if (!product) return res.send({ err: "Category not found!" });
 

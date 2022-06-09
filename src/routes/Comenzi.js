@@ -34,7 +34,7 @@ app.put("/update_comanda/:cid", update_comanda);
 
 // -----USER-----
 
-app.post("/", isUser, create_comanda);
+app.post("/", create_comanda);
 
 app.put("/:cid", update_status);
 

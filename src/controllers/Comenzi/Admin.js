@@ -1,5 +1,6 @@
 const Comanda = require("../../Models/Comenzi");
 const mongoose = require("mongoose");
+const Produs = require("../../Models/Produs");
 
 exports.all_comenzi = async (req, res) => {
   const { id } = req.query;
@@ -32,6 +33,18 @@ exports.update_status_admin = async (req, res) => {
   console.log(status);
   const comenzi = await Comanda.findOne({ _id: cid });
   comenzi.status = status;
+  comenzi.produse.map(async (el) => {
+    const produs = await Produs.findById(el.id);
+    const variationIndex = produs.variation
+      .map((el) => el.nume)
+      .indexOf(el.marime);
+    console.log(variationIndex);
+    produs.variation[variationIndex].stock =
+      produs.variation[variationIndex].stock - el.quantity;
+
+    produs.markModified("variation");
+    await produs.save();
+  });
   await comenzi.save();
   res.json({ successMsg: "Produsul a fost confirmat!" });
 };
@@ -42,6 +55,18 @@ exports.delete_comanda = async (req, res) => {
   console.log(status);
   const comenzi = await Comanda.findOne({ _id: cid });
   comenzi.status = "Anulata";
+  comenzi.produse.map(async (el) => {
+    const produs = await Produs.findById(el.id);
+    const variationIndex = produs.variation
+      .map((el) => el.nume)
+      .indexOf(el.marime);
+    console.log(variationIndex);
+    produs.variation[variationIndex].stock =
+      produs.variation[variationIndex].stock + el.quantity;
+
+    produs.markModified("variation");
+    await produs.save();
+  });
   await comenzi.save();
   // await comenzi.remove();
 
@@ -76,7 +101,7 @@ exports.update_comanda = async (req, res) => {
     }
   );
 
-  res.json({ successMsg: "asd" });
+  res.json({ successMsg: "Comanda a fost editata cu succes!" });
 };
 
 exports.comenzi_plasate = async (req, res) => {
