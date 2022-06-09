@@ -2,14 +2,17 @@ const Produs = require("../../Models/Produs");
 
 exports.get_all_products = async (req, res) => {
   const { name } = req.query;
+  console.log(name);
   if (name) {
     const produse = await Produs.find({
       name: { $regex: name, $options: "i" },
     });
-
+    console.log(produse);
     res.json({ successMsg: produse });
   } else {
-    const produse = await Produs.find({});
+    const produse = await Produs.aggregate([
+      { $sort: { "variation.stock": -1 } },
+    ]);
     res.json({ successMsg: produse });
   }
 };
