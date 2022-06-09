@@ -20,6 +20,7 @@ const {
   get_stock,
   update_produs,
   update_aprovizionare,
+  update_reducere,
 } = require("../controllers/Produs/Admin");
 
 const storage = multer.diskStorage({
@@ -45,6 +46,7 @@ app.put("/:id", upload.array("images"), update_produs);
 app.get("/stock", get_stock);
 
 app.put("/update_aprovizionare/:product_id", update_aprovizionare);
+app.put("/update_reducere/:product_id", update_reducere);
 
 //------USER------
 

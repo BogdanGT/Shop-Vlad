@@ -112,3 +112,20 @@ exports.update_aprovizionare = async (req, res) => {
   );
   console.log(req.body, req.params.product_id);
 };
+
+exports.update_reducere = async (req, res) => {
+  console.log(req.params.product_id);
+  await Produs.updateOne(
+    {
+      _id: req.params.product_id,
+      "variation.nume": req.body.nume,
+    },
+    {
+      $set: {
+        "variation.$.discount": 0,
+      },
+    },
+    { new: true }
+  );
+  console.log(req.body, req.params.product_id);
+};
