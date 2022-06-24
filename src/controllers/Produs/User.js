@@ -1,4 +1,7 @@
 const Produs = require("../../Models/Produs");
+const User = require("../../Models/User");
+const mongoose = require("mongoose");
+const Comanda = require("../../Models/Comenzi");
 
 exports.get_all_products = async (req, res) => {
   const { name } = req.query;
@@ -76,4 +79,54 @@ exports.adaugate_recent = async (req, res) => {
     { $limit: 8 },
   ]);
   res.json({ successMsg: data });
+};
+
+exports.add_review = async (req, res) => {
+  const user = await User.findById(req.user.id);
+  const id = mongoose.Types.ObjectId();
+
+  const comanda = await Comanda.findOne({
+    email: user.email,
+    "produse.id": req.params.product_id,
+  });
+
+  if (comanda) {
+    await Produs.findByIdAndUpdate(
+      req.params.product_id,
+      {
+        $push: {
+          review: {
+            message: req.body.message,
+            rating: req.body.stars,
+            username: `${user.nume} ${user.prenume}`,
+            _id: id,
+            userId: user._id,
+          },
+        },
+      },
+      { new: true }
+    );
+  } else {
+    return res.json({ errorMsg: { data: "You didn't bought it" } });
+  }
+
+  res.json({ successMsg: { data: id } });
+};
+
+exports.delete_review = async (req, res) => {
+  const user = await User.findById(req.user.id);
+  console.log();
+  await Produs.findByIdAndUpdate(
+    req.params.product_id,
+    {
+      $pull: {
+        review: {
+          _id: mongoose.Types.ObjectId(req.params.review_id),
+        },
+      },
+    },
+    { new: true }
+  );
+  console.log(req.body);
+  res.json({ successMsg: { data: "delete" } });
 };

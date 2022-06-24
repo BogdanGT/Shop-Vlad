@@ -21,6 +21,7 @@ const produsSchema = new mongoose.Schema(
       default: 0,
     },
     subcategorie: Array,
+    review: [],
   },
   { collection: "Produse" }
 );

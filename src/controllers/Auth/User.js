@@ -36,7 +36,7 @@ exports.register = async (req, res) => {
   const existingUser = await User.findOne({ email });
 
   if (existingUser) {
-    return res.json({ err: "User already exists" });
+    return res.json({ errMsg: { email: "Exista un cont cu acest email!" } });
   }
 
   // const transporter = nodemailer.createTransport({

@@ -13,6 +13,8 @@ const {
   nushcee,
   top_vandute,
   adaugate_recent,
+  add_review,
+  delete_review,
 } = require("../controllers/Produs/User");
 const {
   create_produs,
@@ -63,5 +65,9 @@ app.get("/:product_id", get_product);
 app.get("/categorie/:product_category", get_products_by_category);
 
 app.get("/nume/:product_name", isUser, nushcee);
+
+app.post("/:product_id/review", isUser, add_review);
+
+app.delete("/:product_id/review/:review_id", isUser, delete_review);
 
 module.exports = app;
