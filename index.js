@@ -12,7 +12,7 @@ mongoose
     "mongodb+srv://mywves-7qizra-miptiP:dyfku8-tybxun-hoHjef@127.0.0.1:27017/test/?authSource=admin"
   )
   .then(() => console.log("mongoose conected"))
-  .catch(() => console.log("nu merge"));
+  .catch((e) => console.log(e));
 
 app.use(cors());
 app.use(express.json());
