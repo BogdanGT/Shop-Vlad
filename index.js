@@ -9,7 +9,7 @@ const Product = require("./src/routes/Produs");
 const Comanda = require("./src/routes/Comenzi");
 mongoose
   .connect(
-    "mongodb+srv://Fudrav-zaztor-gaspu0:jahsa1-Mezvuw-bipgim@127.0.0.1:27017/test"
+    "mongodb+srv://mywves-7qizra-miptiP:dyfku8-tybxun-hoHjef@127.0.0.1:27017/test/?authSource=admin"
   )
   .then(() => console.log("mongoose conected"))
   .catch(() => console.log("nu merge"));
